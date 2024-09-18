@@ -2,7 +2,7 @@ import { create } from "zustand";
 import { createAuthSlice } from "./slices/auth-slice";
 import { createThemeSlice } from "./slices/theme-slice";
 import { persist, createJSONStorage } from "zustand/middleware";
-export const useStore = create(
+export const useAppStore = create(
   persist(
     (set) => ({
       ...createAuthSlice(set),
@@ -14,6 +14,7 @@ export const useStore = create(
       partialize: (state) => ({
         theme: state.theme,
         user: state.user,
+        token: state.token,
       }),
     }
   )

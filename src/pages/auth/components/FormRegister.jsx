@@ -19,6 +19,9 @@ import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { RegisterShecma } from "@/schema/AuthShecma";
+import { useMutation } from "@tanstack/react-query";
+import { authApi } from "@/api/authApi";
+import { toast } from "@/hooks/use-toast";
 const FormRegister = () => {
   const form = useForm({
     resolver: zodResolver(RegisterShecma),
@@ -28,11 +31,17 @@ const FormRegister = () => {
       confirmPassword: "",
     },
   });
-
-  async function onSubmit(values) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values);
+  const registerMutation = useMutation({
+    mutationFn: authApi.register,
+    onSuccess: (data) => {
+      toast({
+        title: "Success",
+        description: data.message,
+      });
+    },
+  });
+  function onSubmit(values) {
+    registerMutation.mutate(values);
   }
   return (
     <Form {...form}>
