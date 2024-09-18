@@ -22,8 +22,12 @@ import { RegisterShecma } from "@/schema/AuthShecma";
 import { authApi } from "@/api/authApi";
 import { useMutation } from "@tanstack/react-query";
 import { useToast } from "@/hooks/use-toast";
+import LoadingWhenCallApi from "@/components/loading-when-call-api";
+import { useAppStore } from "@/store";
+import { useEffect } from "react";
 const FormRegister = () => {
   const { toast } = useToast();
+  const { setIsLoadingWhenCallApi } = useAppStore();
   const form = useForm({
     resolver: zodResolver(RegisterShecma),
     defaultValues: {
@@ -35,18 +39,21 @@ const FormRegister = () => {
   });
   const mutation = useMutation({
     mutationFn: authApi.register,
+    onMutate: () => {
+      setIsLoadingWhenCallApi(true);
+    },
     onSuccess: (data) => {
+      setIsLoadingWhenCallApi(false);
       toast({
         title: "Success",
         description: "Register successfully !",
-        autoClose: 1000,
       });
     },
     onError: (error) => {
+      setIsLoadingWhenCallApi(false);
       toast({
         title: "Error",
         description: error,
-        autoClose: 1000,
       });
     },
   });
@@ -55,91 +62,93 @@ const FormRegister = () => {
     mutation.mutate(values);
   };
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-center text-2xl">Register</CardTitle>
-            <CardDescription className="text-center">
-              You can create account to join the app
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-2">
-            <FormField
-              control={form.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Email</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="Email"
-                      autoComplete="email"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="name"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Name</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Name" autoComplete="off" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="password"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Password</FormLabel>
-                  <FormControl>
-                    <Input
-                      type="password"
-                      autoComplete="off"
-                      placeholder="Password"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="confirmPassword"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Confirm Password</FormLabel>
-                  <FormControl>
-                    <Input
-                      type="password"
-                      autoComplete="off"
-                      placeholder="Confirm Password"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </CardContent>
-          <CardFooter>
-            <Button className="w-full" type="submit">
-              Submit
-            </Button>
-          </CardFooter>
-        </Card>
-      </form>
-    </Form>
+    <>
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-center text-2xl">Register</CardTitle>
+              <CardDescription className="text-center">
+                You can create account to join the app
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-2">
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Email</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Email"
+                        autoComplete="email"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="name"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Name</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Name" autoComplete="off" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="password"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Password</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="password"
+                        autoComplete="off"
+                        placeholder="Password"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="confirmPassword"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Confirm Password</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="password"
+                        autoComplete="off"
+                        placeholder="Confirm Password"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </CardContent>
+            <CardFooter>
+              <Button className="w-full" type="submit">
+                Submit
+              </Button>
+            </CardFooter>
+          </Card>
+        </form>
+      </Form>
+    </>
   );
 };
 

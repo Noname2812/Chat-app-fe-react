@@ -4,10 +4,16 @@ import ChatPage from "./pages/chat";
 import ProfilePage from "./pages/profile";
 import Providers from "./providers";
 import Header from "./layout/Header";
+import { useAppStore } from "./store";
+import LoadingWhenCallApi from "./components/loading-when-call-api";
 
 function App() {
+  const { isLoadingWhenCallApi } = useAppStore();
+  console.log(isLoadingWhenCallApi);
+
   return (
     <Providers>
+      {isLoadingWhenCallApi && <LoadingWhenCallApi />}
       <Header />
       <BrowserRouter>
         <Routes>
