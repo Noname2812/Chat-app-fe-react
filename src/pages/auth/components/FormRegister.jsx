@@ -19,30 +19,41 @@ import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { RegisterShecma } from "@/schema/AuthShecma";
-import { useMutation } from "@tanstack/react-query";
 import { authApi } from "@/api/authApi";
-import { toast } from "@/hooks/use-toast";
+import { useMutation } from "@tanstack/react-query";
+import { useToast } from "@/hooks/use-toast";
 const FormRegister = () => {
+  const { toast } = useToast();
   const form = useForm({
     resolver: zodResolver(RegisterShecma),
     defaultValues: {
+      name: "",
       email: "",
       password: "",
       confirmPassword: "",
     },
   });
-  const registerMutation = useMutation({
+  const mutation = useMutation({
     mutationFn: authApi.register,
     onSuccess: (data) => {
       toast({
         title: "Success",
-        description: data.message,
+        description: "Register successfully !",
+        autoClose: 1000,
+      });
+    },
+    onError: (error) => {
+      toast({
+        title: "Error",
+        description: error,
+        autoClose: 1000,
       });
     },
   });
-  function onSubmit(values) {
-    registerMutation.mutate(values);
-  }
+
+  const onSubmit = async (values) => {
+    mutation.mutate(values);
+  };
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
@@ -73,6 +84,19 @@ const FormRegister = () => {
             />
             <FormField
               control={form.control}
+              name="name"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Name</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Name" autoComplete="off" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
               name="password"
               render={({ field }) => (
                 <FormItem>
@@ -80,7 +104,7 @@ const FormRegister = () => {
                   <FormControl>
                     <Input
                       type="password"
-                      autoComplete="current-password"
+                      autoComplete="off"
                       placeholder="Password"
                       {...field}
                     />

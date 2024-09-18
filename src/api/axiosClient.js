@@ -2,8 +2,9 @@ import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 import dayjs from "dayjs";
 import { useAppStore } from "@/store";
+
 const axiosClient = axios.create({
-  baseURL: import.meta.env.BASE_URL_API,
+  baseURL: import.meta.env.VITE_API_URL,
   headers: {
     "Content-Type": "application/json",
     "Access-Control-Allow-Origin": "*",
@@ -14,7 +15,7 @@ const axiosClient = axios.create({
 
 axiosClient.interceptors.request.use(
   async (config) => {
-    const { user, setToken, logout } = useAppStore();
+    const { user, setToken, logout } = useAppStore.getState();
     if (user) {
       const decodedToken = jwtDecode(user.token);
       const currentTime = dayjs();
@@ -35,17 +36,27 @@ axiosClient.interceptors.request.use(
         config.headers["Authorization"] = `Bearer ${user?.token?.accessToken}`;
       }
     }
-    config.headers["Authorization"] = `Bearer ${user?.token?.accessToken}`;
     return config;
   },
   (error) => {
     return Promise.reject(error);
   }
 );
+axiosClient.interceptors.response.use(
+  (response) => {
+    return response.data;
+  },
+  async (error) => {
+    if (error.code === "ERR_BAD_REQUEST") {
+      return Promise.reject(error?.response?.data?.detail);
+    }
+    return Promise.reject(error);
+  }
+);
 const refreshToken = async ({ accessToken, refreshToken }) => {
   try {
     const response = await fetch(
-      `${import.meta.env.BASE_URL_API}/auth/refresh-token`,
+      `${import.meta.env.API_URL}/auth/refresh-token`,
       {
         method: "POST",
         headers: {
