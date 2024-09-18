@@ -19,8 +19,14 @@ import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { LoginShecma } from "@/schema/AuthShecma";
+import { useMutation } from "@tanstack/react-query";
+import { authApi } from "@/api/authApi";
+import { useToast } from "@/hooks/use-toast";
+import { useAppStore } from "@/store";
 
 const FormLogin = () => {
+  const { toast } = useToast();
+  const { setIsLoadingWhenCallApi, loginSuccess } = useAppStore();
   const form = useForm({
     resolver: zodResolver(LoginShecma),
     defaultValues: {
@@ -28,9 +34,25 @@ const FormLogin = () => {
       password: "",
     },
   });
-
+  const mutation = useMutation({
+    mutationFn: authApi.login,
+    onMutate: () => {
+      setIsLoadingWhenCallApi(true);
+    },
+    onSuccess: (data) => {
+      setIsLoadingWhenCallApi(false);
+      loginSuccess(data);
+    },
+    onError: (error) => {
+      setIsLoadingWhenCallApi(false);
+      toast({
+        title: "Error",
+        description: error,
+      });
+    },
+  });
   function onSubmit(values) {
-    console.log(values);
+    mutation.mutate(values);
   }
   return (
     <Form {...form}>

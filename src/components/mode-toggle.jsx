@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { useEffect } from "react";
 import { useAppStore } from "@/store";
 
-export function ModeToggle() {
+export function ModeToggleTheme() {
   const { theme, toggleTheme } = useAppStore();
   useEffect(() => {
     const root = window.document.documentElement;

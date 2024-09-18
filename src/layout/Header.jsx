@@ -1,10 +1,10 @@
-import { ModeToggle } from "@/components/mode-toggle";
+import { ModeToggleTheme } from "@/components/mode-toggle";
 
 const Header = () => {
   return (
     <header className="w-screen">
       <div>
-        <ModeToggle />
+        <ModeToggleTheme />
       </div>
     </header>
   );

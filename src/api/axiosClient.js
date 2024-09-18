@@ -44,7 +44,7 @@ axiosClient.interceptors.request.use(
 );
 axiosClient.interceptors.response.use(
   (response) => {
-    return response.data;
+    return response?.data?.value;
   },
   async (error) => {
     if (error.code === "ERR_BAD_REQUEST") {
