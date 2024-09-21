@@ -6,13 +6,14 @@ import {
 
 let connection = null;
 
-const connect = async (user) => {
+const connect = async (token) => {
   if (connection) return connection;
+  // var token = getToken();
   connection = new HubConnectionBuilder()
     .withUrl("http://localhost:5117/chat", {
       transport: HttpTransportType.WebSockets,
       skipNegotiation: true,
-      accessTokenFactory: () => user?.token,
+      accessTokenFactory: () => token,
     })
     .configureLogging(LogLevel.Information)
     .withAutomaticReconnect({
@@ -35,14 +36,13 @@ const connect = async (user) => {
       console.log("Received group message:", data);
     });
   } catch (error) {
-    console.error("Error connecting to SignalR Hub:", error);
     connection = null;
   }
   return connection;
 };
 
 export const HubServices = {
-  connection: async (user) => await connect(user),
+  connection: (token) => connect(token),
   disconnect: async () => {
     if (connection) {
       try {

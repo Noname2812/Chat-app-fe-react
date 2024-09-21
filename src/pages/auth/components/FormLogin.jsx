@@ -41,7 +41,7 @@ const FormLogin = () => {
     },
     onSuccess: (data) => {
       setIsLoadingWhenCallApi(false);
-      loginSuccess(data);
+      loginSuccess(data?.value);
     },
     onError: (error) => {
       setIsLoadingWhenCallApi(false);

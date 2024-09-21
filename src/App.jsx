@@ -1,7 +1,6 @@
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import AuthPage from "./pages/auth";
 import Providers from "./providers";
-import Header from "./layout/Header";
 import { useAppStore } from "./store";
 import LoadingWhenCallApi from "./components/loading-when-call-api";
 import PrivateRouteWrapper from "./providers/PrivateRouteWrapper";
