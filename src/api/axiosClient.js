@@ -1,7 +1,5 @@
+import { getToken } from "@/utils/tokenHelpers";
 import axios from "axios";
-import { useAppStore } from "@/store";
-import { refreshToken } from "./refreshToken";
-import { isTokenExpired } from "@/utils/tokenHelpers";
 
 const axiosClient = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
@@ -15,24 +13,8 @@ const axiosClient = axios.create({
 
 axiosClient.interceptors.request.use(
   async (config) => {
-    const { user, setRefreshToken, logOut } = useAppStore.getState();
-    if (user) {
-      if (isTokenExpired(user?.token?.accessToken)) {
-        try {
-          const data = await refreshToken({
-            userId: user.id,
-            refreshToken: user?.token?.refreshToken,
-          });
-          config.headers["Authorization"] = `Bearer ${data.accessToken}`;
-          setRefreshToken(data);
-        } catch (error) {
-          console.log(error);
-          logOut();
-        }
-      } else {
-        config.headers["Authorization"] = `Bearer ${user?.token?.accessToken}`;
-      }
-    }
+    const token = await getToken();
+    config.headers["Authorization"] = `Bearer ${token?.accessToken}`;
     return config;
   },
   (error) => {

@@ -16,6 +16,7 @@ export const useAppStore = create(
       partialize: (state) => ({
         theme: state.theme,
         user: state.user,
+        token: state.token,
       }),
     }
   )

@@ -10,6 +10,5 @@ export const refreshToken = async ({ userId, refreshToken }) => {
     }
   );
   const data = await response.json();
-
   return data.value;
 };

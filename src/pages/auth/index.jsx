@@ -34,7 +34,7 @@ const AuthPage = () => {
         </div>
         <div className="hidden xl:flex justify-center items-center ">
           <img
-            src="/public/logos/chat-app-login.jpg"
+            src="/logos/chat-app-login.jpg"
             alt="chat-app-logo"
             className="w-4/5"
           />
