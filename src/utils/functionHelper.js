@@ -6,3 +6,9 @@ export const ObjectToQuery = (object) => {
       .join("&")
   );
 };
+export const getNamePrivateRoomChat = (conversationParticipants, userId) => {
+  const participant = conversationParticipants.find(
+    (participant) => participant.appUser.id !== userId
+  );
+  return participant?.nickName || participant?.appUser?.name;
+};
