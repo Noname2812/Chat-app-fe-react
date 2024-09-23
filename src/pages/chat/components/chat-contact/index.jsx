@@ -5,7 +5,10 @@ import ItemChatContact from "./components/ItemChatContact";
 import { useAppStore } from "@/store";
 import ChatContactHeader from "./components/ChatContactHeader";
 import OpenListContacts from "./components/OpenListContact";
-import { getParticipantPrivateRoomChat } from "@/utils/functionHelper";
+import {
+  getAvatarInRoomChat,
+  getParticipantPrivateRoomChat,
+} from "@/utils/functionHelper";
 
 const ChatContact = () => {
   const user = useAppStore((state) => state.user);
@@ -31,7 +34,12 @@ const ChatContact = () => {
               selectedRoom(item);
             }}
             key={item.id}
-            avatar={item.avatar}
+            id={item.id}
+            avatar={
+              item.isGroup
+                ? item.avatar
+                : getAvatarInRoomChat(item.conversationParticipants, user.id)
+            }
             name={
               item.isGroup
                 ? item.name

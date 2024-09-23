@@ -6,7 +6,6 @@ import EmptyChatContainer from "../EmptyChatContainer";
 
 const ChatContainer = () => {
   const roomSelected = useAppStore((state) => state.roomSelected);
-  console.log(roomSelected);
 
   return (
     <>
