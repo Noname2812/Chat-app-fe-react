@@ -1,6 +1,9 @@
-const ItemChatContact = ({ avatar, name, message }) => {
+const ItemChatContact = ({ avatar, name, message, onClick }) => {
   return (
-    <div className="flex items-center gap-4 w-full bg-white shadow-xl rounded h-[10%] px-2">
+    <div
+      className="flex items-center gap-4 w-full bg-white shadow-xl rounded h-[10%] px-2 cursor-pointer hover:opacity-90"
+      onClick={onClick}
+    >
       <div className="bg-black rounded-full">
         <img src={avatar} alt="image room chat" className="w-12 h-12 " />
       </div>

@@ -1,3 +1,4 @@
+import { useAppStore } from "@/store";
 import {
   HttpTransportType,
   HubConnectionBuilder,
@@ -8,7 +9,6 @@ let connection = null;
 
 const connect = async (token) => {
   if (connection) return connection;
-  // var token = getToken();
   connection = new HubConnectionBuilder()
     .withUrl("http://localhost:5117/chat", {
       transport: HttpTransportType.WebSockets,
@@ -28,19 +28,38 @@ const connect = async (token) => {
     .build();
   try {
     await connection.start();
-    connection.on("ReceiveMessagePrivate", (data) => {
+    connection.on("ReceivedMessage", (data) => {
       console.log("Received private message:", data);
     });
-
-    connection.on("ReceiveMessageFromGroup", (data) => {
-      console.log("Received group message:", data);
+    connection.on("SendMessageSuccessfully", (message) => {
+      console.log("SendMessageSuccessfully:", message);
+    });
+    connection.on("ErrorWhileSendingMessage", (message) => {
+      console.log("ErrorWhileSendingMessage:", message);
     });
   } catch (error) {
     connection = null;
   }
   return connection;
 };
-
+const handleReceiveMessage = (data) => {
+  const { roomSelected, user, addMessage } = useAppStore.getState();
+  if (roomSelected?.id === data.roomId || user?.id === data.createBy) {
+    //addMessage
+    addMessage(data);
+  }
+};
+const handleSendMessage = async (msg) => {
+  if (connection) {
+    try {
+      await connection.invoke("SendMessage", msg);
+    } catch (error) {
+      throw error;
+    }
+  } else {
+    throw new Error("Not connected to SignalR Hub");
+  }
+};
 export const HubServices = {
   connection: (token) => connect(token),
   disconnect: async () => {
@@ -58,4 +77,5 @@ export const HubServices = {
   isConnected: () => {
     return connection !== null && connection.state === "Connected";
   },
+  sendMessage: (msg) => handleSendMessage(msg),
 };

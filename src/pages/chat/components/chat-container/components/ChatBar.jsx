@@ -5,15 +5,29 @@ import { GrAttachment } from "react-icons/gr";
 import { RiEmojiStickerLine } from "react-icons/ri";
 import { IoSend } from "react-icons/io5";
 import EmojiPicker from "emoji-picker-react";
+import { HubServices } from "@/services/HubServices";
+import { useAppStore } from "@/store";
 const ChatBar = () => {
   const emojiRef = useRef();
   const [message, setMessage] = useState("");
   const [emojPickerOpen, setEmojPickerOpen] = useState(false);
+  const { user, roomSelected } = useAppStore();
   const handleAddEmoji = (emoji) => {
     setMessage((message) => message + emoji.emoji);
   };
-  const handleSendMessage = async () => {
-    console.log(message);
+  const handleSendMessage = () => {
+    const data = {
+      createBy: user.id,
+      roomChatId: roomSelected.id,
+      content: message,
+      type: 0,
+      IsGroup: roomSelected.isGroup,
+    };
+
+    // Guid CreateBy,Guid? RoomChatId, Member? To, Guid? MessageId, string Content, TypeMessage? Type, bool IsGroup, DateTimeOffset? CreateDate
+    HubServices.sendMessage(data);
+
+    setMessage("");
   };
   useEffect(() => {
     function handleClickOutside(event) {

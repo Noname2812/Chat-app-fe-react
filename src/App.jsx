@@ -8,7 +8,7 @@ import ChatPage from "./pages/chat";
 import ProfilePage from "./pages/profile";
 
 function App() {
-  const { isLoadingWhenCallApi } = useAppStore(
+  const isLoadingWhenCallApi = useAppStore(
     (state) => state.isLoadingWhenCallApi
   );
 

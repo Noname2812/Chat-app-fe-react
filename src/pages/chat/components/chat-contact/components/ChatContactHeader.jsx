@@ -1,7 +1,7 @@
 import { authApi } from "@/api/authApi";
 import Logo from "./Logo";
 import { ModeToggleTheme } from "@/components/mode-toggle";
-import { Button } from "@/components/ui/button";
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -13,15 +13,18 @@ import {
 import { useAppStore } from "@/store";
 import { useNavigate } from "react-router-dom";
 import { HubServices } from "@/services/HubServices";
+import { useQueryClient } from "@tanstack/react-query";
 
 const ChatContactHeader = () => {
   const { user, logOut } = useAppStore();
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const handleLogout = async () => {
     authApi
       .logout()
       .then(() => {
         HubServices.disconnect();
+        queryClient.removeQueries("getAllRoomChats");
         logOut();
       })
       .catch((err) => console.log(err));
@@ -34,7 +37,7 @@ const ChatContactHeader = () => {
           <img
             src={user?.avatar}
             alt="avatar"
-            className="w-16 h-16 rounded-full"
+            className="w-12 h-12 rounded-full"
           />
         </DropdownMenuTrigger>
         <DropdownMenuContent>
@@ -53,8 +56,6 @@ const ChatContactHeader = () => {
           <DropdownMenuItem onClick={handleLogout}>logout</DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
-
-      {/* <ModeToggleTheme /> */}
     </div>
   );
 };
