@@ -9,7 +9,7 @@ const MessageContainer = () => {
     (a, b) => dayjs(a.createdDate).valueOf() - dayjs(b.createdDate).valueOf()
   );
   return (
-    <div className="h-[80vh] overflow-y-auto scrollbar-hidden p-4 px-8">
+    <div className="h-[80vh] overflow-y-auto custom-scroll p-4 px-8">
       {messages?.map((message) => (
         <ItemMessage
           key={message.id}

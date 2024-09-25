@@ -7,11 +7,17 @@ import { IoSend } from "react-icons/io5";
 import EmojiPicker from "emoji-picker-react";
 import { HubServices } from "@/services/HubServices";
 import { useAppStore } from "@/store";
+import { uploadFile } from "@/api/uploadFile";
+import { TYPE_MESSAGE } from "@/constants";
+import { useToast } from "@/hooks/use-toast";
 const ChatBar = () => {
   const emojiRef = useRef();
+  const inputFileRef = useRef();
+  const toast = useToast();
   const [message, setMessage] = useState("");
   const [emojPickerOpen, setEmojPickerOpen] = useState(false);
   const { user, roomSelected } = useAppStore();
+
   const handleAddEmoji = (emoji) => {
     setMessage((message) => message + emoji.emoji);
   };
@@ -20,14 +26,32 @@ const ChatBar = () => {
       createBy: user.id,
       roomChatId: roomSelected.id,
       content: message,
-      type: 0,
+      type: TYPE_MESSAGE.TEXT,
       IsGroup: roomSelected.isGroup,
     };
-
-    // Guid CreateBy,Guid? RoomChatId, Member? To, Guid? MessageId, string Content, TypeMessage? Type, bool IsGroup, DateTimeOffset? CreateDate
     HubServices.sendMessage(data);
-
     setMessage("");
+  };
+  const handleOnChangeFile = async (e) => {
+    const file = e.target?.files?.[0];
+    const formData = new FormData();
+    formData.append("file", file);
+    try {
+      const upLoadFileResult = await uploadFile.upload({ formData, type: 1 });
+      const data = {
+        createBy: user.id,
+        roomChatId: roomSelected.id,
+        content: upLoadFileResult?.value?.url,
+        type: TYPE_MESSAGE.IMAGE,
+        IsGroup: roomSelected.isGroup,
+      };
+      HubServices.sendMessage(data);
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Up load image failed !",
+      });
+    }
   };
   useEffect(() => {
     function handleClickOutside(event) {
@@ -51,9 +75,18 @@ const ChatBar = () => {
           onChange={(e) => setMessage(e.target.value)}
         />
 
-        <Button className="text-neutral-500 focus:text-white duration-300 transition-all">
+        <Button
+          className="text-neutral-500 focus:text-white duration-300 transition-all"
+          onClick={() => inputFileRef.current.click()}
+        >
           <GrAttachment className="text-2xl" />
         </Button>
+        <Input
+          type="file"
+          className="hidden"
+          ref={inputFileRef}
+          onChange={handleOnChangeFile}
+        />
         <div className="relative">
           <Button
             className="text-neutral-500 focus:text-white duration-300 transition-all"

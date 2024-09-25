@@ -9,3 +9,8 @@ export const QUERY_CLINENT = new QueryClient({
     },
   },
 });
+export const TYPE_MESSAGE = {
+  TEXT: 0,
+  IMAGE: 1,
+  FILE: 2,
+};

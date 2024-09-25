@@ -55,6 +55,23 @@
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
   }
+  .custom-scroll {
+    scrollbar-width: thin; /* For Firefox */
+    scrollbar-color: #585858 transparent; /* For Firefox */
+  }
+  .custom-scroll::-webkit-scrollbar {
+    width: 12px; /* Scrollbar width */
+  }
+  .custom-scroll::-webkit-scrollbar-track {
+    background: transparent; /* Track background */
+  }
+  .custom-scroll::-webkit-scrollbar-thumb {
+    background-color: #585858; /* Scrollbar color */
+    border-radius: 10px; /* Rounded corners */
+  }
+  .custom-scroll::-webkit-scrollbar-thumb:hover {
+    background-color: #404040; /* Darker scrollbar on hover */
+  }
 }
 @layer base {
   * {
