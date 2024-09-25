@@ -9,8 +9,8 @@ const MessageText = ({ content, createdDate, isMyMessage }) => {
         wordBreak: "break-word",
       }}
       className={`p-2 rounded ${
-        isMyMessage ? " order-1" : "order-2 "
-      } shadow-xl bg-blue-400`}
+        isMyMessage ? " order-1 bg-blue-400" : "order-2 bg-white"
+      } shadow-xl `}
     >
       <div
         style={{

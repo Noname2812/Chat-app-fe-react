@@ -14,6 +14,7 @@ import { useAppStore } from "@/store";
 import { useNavigate } from "react-router-dom";
 import { HubServices } from "@/services/HubServices";
 import { useQueryClient } from "@tanstack/react-query";
+import OpenListContacts from "./OpenListContact";
 
 const ChatContactHeader = () => {
   const { user, logOut } = useAppStore();
@@ -31,14 +32,16 @@ const ChatContactHeader = () => {
   };
   return (
     <div className="py-3 flex justify-between items-center">
-      <Logo />
       <DropdownMenu>
         <DropdownMenuTrigger>
-          <img
-            src={user?.avatar}
-            alt="avatar"
-            className="w-12 h-12 rounded-full"
-          />
+          <div className="flex gap-4 items-center">
+            <img
+              src={user?.avatar}
+              alt="avatar"
+              className="w-12 h-12 rounded-full"
+            />
+            <p className="text-xl font-bold">{user?.name}</p>
+          </div>
         </DropdownMenuTrigger>
         <DropdownMenuContent>
           <DropdownMenuLabel>{user?.name}</DropdownMenuLabel>
@@ -56,6 +59,7 @@ const ChatContactHeader = () => {
           <DropdownMenuItem onClick={handleLogout}>logout</DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
+      <OpenListContacts />
     </div>
   );
 };

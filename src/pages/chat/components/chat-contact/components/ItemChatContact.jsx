@@ -1,7 +1,9 @@
+import { TYPE_MESSAGE } from "@/constants";
 import { useAppStore } from "@/store";
 
 const ItemChatContact = ({ avatar, name, message, onClick, id }) => {
-  const roomSelected = useAppStore((state) => state.roomSelected);
+  const { roomSelected, user } = useAppStore();
+  const isMyMessage = user?.id === message?.createdBy;
 
   return (
     <div
@@ -22,7 +24,16 @@ const ItemChatContact = ({ avatar, name, message, onClick, id }) => {
           <h3 className="text-2xl">{name}</h3>
         </div>
         <div>
-          <p className="text-sm font-medium">{message?.content}</p>
+          {message?.type === TYPE_MESSAGE.TEXT && (
+            <p className="text-sm font-medium">
+              {isMyMessage ? "You: " + message?.content : message?.content}
+            </p>
+          )}
+          {message?.type === TYPE_MESSAGE.IMAGE && (
+            <p className="text-sm font-medium">
+              {isMyMessage ? "You: Image" : "Image"}
+            </p>
+          )}
         </div>
       </div>
     </div>

@@ -12,7 +12,7 @@ import {
 
 const ChatContact = () => {
   const user = useAppStore((state) => state.user);
-  const selectedRoom = useAppStore((state) => state.selectedRoom);
+  const setRoomSelected = useAppStore((state) => state.setRoomSelected);
   const { isLoading, isError, data, error } = useQuery({
     queryKey: ["getAllRoomChats"],
     queryFn: () => roomChatApi.getAll({ limit: 10, offset: 0 }),
@@ -22,16 +22,14 @@ const ChatContact = () => {
   return (
     <div className=" md:bg-slate-500 md:flex flex-col w-1/4 p-2 hidden duration-100 transition border-r-2 border-white gap-2">
       <ChatContactHeader />
-      <div className="w-full">
-        <OpenListContacts />
-      </div>
+
       {isLoading ? (
         <SkeletonList count={10} />
       ) : (
         data?.value?.map((item) => (
           <ItemChatContact
             onClick={() => {
-              selectedRoom(item);
+              setRoomSelected(item);
             }}
             key={item.id}
             id={item.id}

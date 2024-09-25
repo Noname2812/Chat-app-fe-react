@@ -3,6 +3,7 @@ import { useAppStore } from "@/store";
 
 import MessageText from "./components/MessageText";
 import MessageImage from "./components/MessageImage";
+import MessageAudio from "./components/MessageAudio";
 
 const ItemMessage = (props) => {
   const { content, createdBy, createdDate, type, avatar } = props;
@@ -30,7 +31,13 @@ const ItemMessage = (props) => {
               isMyMessage={isMyMessage}
             />
           )}
-
+          {type === TYPE_MESSAGE.AUDIO && (
+            <MessageAudio
+              content={content}
+              createdDate={createdDate}
+              isMyMessage={isMyMessage}
+            />
+          )}
           <div className={`${isMyMessage ? "order-2" : "order-1"}`}>
             <img src={avatar} alt="avatar" className="w-12 h-12 rounded-full" />
           </div>

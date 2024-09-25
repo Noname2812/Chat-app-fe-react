@@ -12,9 +12,7 @@ const OpenListContacts = () => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="outline" className="w-full">
-          Open list contacts
-        </Button>
+        <Button variant="outline">Add New</Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px] max-h-[40vh] overflow-y-auto">
         <DialogHeader>
