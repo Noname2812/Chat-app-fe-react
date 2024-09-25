@@ -30,9 +30,11 @@ const connect = async (token) => {
     await connection.start();
     connection.on("ReceivedMessage", (data) => {
       console.log("Received private message:", data);
+      handleReceiveMessage(data);
     });
     connection.on("SendMessageSuccessfully", (message) => {
       console.log("SendMessageSuccessfully:", message);
+      handleReceiveMessage(message);
     });
     connection.on("ErrorWhileSendingMessage", (message) => {
       console.log("ErrorWhileSendingMessage:", message);
@@ -44,8 +46,7 @@ const connect = async (token) => {
 };
 const handleReceiveMessage = (data) => {
   const { roomSelected, user, addMessage } = useAppStore.getState();
-  if (roomSelected?.id === data.roomId || user?.id === data.createBy) {
-    //addMessage
+  if (roomSelected?.id === data.roomChatId || user?.id === data.createBy) {
     addMessage(data);
   }
 };

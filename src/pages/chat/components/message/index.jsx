@@ -14,7 +14,7 @@ const ItemMessage = (props) => {
     avatar,
   } = props;
   const user = useAppStore((state) => state.user);
-
+  const isMyMessage = user?.id === createdBy;
   return (
     <>
       <div>
@@ -29,8 +29,8 @@ const ItemMessage = (props) => {
               wordBreak: "break-word",
             }}
             className={`p-2 rounded ${
-              user?.id === createdBy ? "bg-blue-400 " : ""
-            } shadow-xl`}
+              isMyMessage ? " order-1" : "order-2 "
+            } shadow-xl bg-blue-400`}
           >
             <div
               style={{
@@ -49,7 +49,7 @@ const ItemMessage = (props) => {
               </div>
             </div>
           </div>
-          <div>
+          <div className={`${isMyMessage ? "order-2" : "order-1"}`}>
             <img src={avatar} alt="avatar" className="w-12 h-12 rounded-full" />
           </div>
         </div>
