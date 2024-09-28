@@ -34,6 +34,11 @@ const ItemChatContact = ({ avatar, name, message, onClick, id }) => {
               {isMyMessage ? "You: Image" : "Image"}
             </p>
           )}
+          {message?.type === TYPE_MESSAGE.AUDIO && (
+            <p className="text-sm font-medium">
+              {isMyMessage ? "You: Audio" : "Audio"}
+            </p>
+          )}
         </div>
       </div>
     </div>

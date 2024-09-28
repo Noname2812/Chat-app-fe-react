@@ -1,20 +1,13 @@
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import AuthPage from "./pages/auth";
-import Providers from "./providers";
-import { useAppStore } from "./store";
-import LoadingWhenCallApi from "./components/loading-when-call-api";
 import PrivateRouteWrapper from "./providers/PrivateRouteWrapper";
 import ChatPage from "./pages/chat";
 import ProfilePage from "./pages/profile";
+import Providers from "./providers";
 
 function App() {
-  const isLoadingWhenCallApi = useAppStore(
-    (state) => state.isLoadingWhenCallApi
-  );
-
   return (
     <Providers>
-      {isLoadingWhenCallApi && <LoadingWhenCallApi />}
       <BrowserRouter>
         <Routes>
           <Route

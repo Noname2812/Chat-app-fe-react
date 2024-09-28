@@ -13,22 +13,31 @@ import {
 import { useAppStore } from "@/store";
 import { useNavigate } from "react-router-dom";
 import { HubServices } from "@/services/HubServices";
-import { useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import OpenListContacts from "./OpenListContact";
+import { useToast } from "@/hooks/use-toast";
 
 const ChatContactHeader = () => {
   const { user, logOut } = useAppStore();
+  const toast = useToast();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-  const handleLogout = async () => {
-    authApi
-      .logout()
-      .then(() => {
-        HubServices.disconnect();
-        queryClient.removeQueries("getAllRoomChats");
-        logOut();
-      })
-      .catch((err) => console.log(err));
+  const mutation = useMutation({
+    mutationFn: authApi.logout,
+    onSuccess: (data) => {
+      HubServices.disconnect();
+      queryClient.removeQueries("getAllRoomChats");
+      logOut();
+    },
+    onError: (error) => {
+      toast({
+        title: "Error",
+        description: error,
+      });
+    },
+  });
+  const handleLogout = () => {
+    mutation.mutate();
   };
   return (
     <div className="py-3 flex justify-between items-center">

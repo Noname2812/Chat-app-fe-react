@@ -1,5 +1,5 @@
 export const createRoomSlice = (set) => ({
-  roomSelected: undefined,
+  setRooms: (values) => set({ rooms: values }),
   setRoomSelected: (room) =>
     set({
       roomSelected: room,
@@ -9,10 +9,20 @@ export const createRoomSlice = (set) => ({
       roomSelected: undefined,
     }),
   addMessage: (message) =>
-    set((state) => ({
-      roomSelected: {
-        ...state.roomSelected,
-        messages: [...state.roomSelected.messages, message],
-      },
-    })),
+    set((state) => {
+      const currentMessages = [
+        ...(state.roomSelected?.messages || []),
+        message,
+      ].flatMap((page) => page);
+
+      return {
+        ...state,
+        roomSelected: {
+          ...state.roomSelected,
+          messages: [
+            ...new Map(currentMessages.map((item) => [item.id, item])).values(),
+          ],
+        },
+      };
+    }),
 });

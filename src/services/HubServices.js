@@ -1,3 +1,4 @@
+import { QUERY_CLINENT } from "@/constants";
 import { useAppStore } from "@/store";
 import {
   HttpTransportType,
@@ -28,13 +29,14 @@ const connect = async (token) => {
     .build();
   try {
     await connection.start();
-    connection.on("ReceivedMessage", (data) => {
+    connection.on("ReceivedMessage", async (data) => {
       console.log("Received private message:", data);
       handleReceiveMessage(data);
+      await QUERY_CLINENT.invalidateQueries({ queryKey: ["getAllRoomChats"] });
     });
-    connection.on("SendMessageSuccessfully", (message) => {
-      console.log("SendMessageSuccessfully:", message);
+    connection.on("SendMessageSuccessfully", async (message) => {
       handleReceiveMessage(message);
+      await QUERY_CLINENT.invalidateQueries({ queryKey: ["getAllRoomChats"] });
     });
     connection.on("ErrorWhileSendingMessage", (message) => {
       console.log("ErrorWhileSendingMessage:", message);
@@ -47,7 +49,7 @@ const connect = async (token) => {
 const handleReceiveMessage = (data) => {
   const { roomSelected, user, addMessage } = useAppStore.getState();
   if (roomSelected?.id === data.roomChatId || user?.id === data.createBy) {
-    addMessage(data);
+    addMessage([data]);
   }
 };
 const handleSendMessage = async (msg) => {

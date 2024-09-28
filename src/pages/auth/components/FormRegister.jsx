@@ -22,12 +22,9 @@ import { RegisterShecma } from "@/schema/AuthShecma";
 import { authApi } from "@/api/authApi";
 import { useMutation } from "@tanstack/react-query";
 import { useToast } from "@/hooks/use-toast";
-import LoadingWhenCallApi from "@/components/loading-when-call-api";
-import { useAppStore } from "@/store";
-import { useEffect } from "react";
+
 const FormRegister = () => {
   const { toast } = useToast();
-  const { setIsLoadingWhenCallApi } = useAppStore();
   const form = useForm({
     resolver: zodResolver(RegisterShecma),
     defaultValues: {
@@ -39,18 +36,14 @@ const FormRegister = () => {
   });
   const mutation = useMutation({
     mutationFn: authApi.register,
-    onMutate: () => {
-      setIsLoadingWhenCallApi(true);
-    },
+
     onSuccess: (data) => {
-      setIsLoadingWhenCallApi(false);
       toast({
         title: "Success",
         description: "Register successfully !",
       });
     },
     onError: (error) => {
-      setIsLoadingWhenCallApi(false);
       toast({
         title: "Error",
         description: error,

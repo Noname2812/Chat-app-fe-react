@@ -50,3 +50,8 @@ export const formatTimeRecord = (time) => {
     .toString()
     .padStart(2, "0")}`;
 };
+export const sortByCreatedDate = (data) => {
+  return data.sort(
+    (a, b) => dayjs(a.createdDate).valueOf() - dayjs(b.createdDate).valueOf()
+  );
+};

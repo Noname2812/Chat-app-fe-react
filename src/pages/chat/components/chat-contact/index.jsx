@@ -4,19 +4,20 @@ import SkeletonList from "@/components/SkeletonList";
 import ItemChatContact from "./components/ItemChatContact";
 import { useAppStore } from "@/store";
 import ChatContactHeader from "./components/ChatContactHeader";
-import OpenListContacts from "./components/OpenListContact";
 import {
   getAvatarInRoomChat,
   getParticipantPrivateRoomChat,
 } from "@/utils/functionHelper";
 
 const ChatContact = () => {
-  const user = useAppStore((state) => state.user);
-  const setRoomSelected = useAppStore((state) => state.setRoomSelected);
-  const { isLoading, isError, data, error } = useQuery({
+  const { user, setRoomSelected } = useAppStore();
+  const { isLoading, isError, error, data } = useQuery({
     queryKey: ["getAllRoomChats"],
     queryFn: () => roomChatApi.getAll({ limit: 10, offset: 0 }),
     enabled: !!user,
+    onError: (error) => {
+      console.error("Query failed:", error);
+    },
   });
 
   return (
@@ -26,7 +27,7 @@ const ChatContact = () => {
       {isLoading ? (
         <SkeletonList count={10} />
       ) : (
-        data?.value?.map((item) => (
+        data?.value?.items?.map((item) => (
           <ItemChatContact
             onClick={() => {
               setRoomSelected(item);

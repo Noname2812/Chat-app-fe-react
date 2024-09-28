@@ -12,6 +12,8 @@ import { uploadFile } from "@/api/uploadFile";
 import { TYPE_MESSAGE } from "@/constants";
 import { useToast } from "@/hooks/use-toast";
 import CaptureAudio from "./CaptureAudio";
+import { messageApi } from "@/api/messageApi";
+import { getParticipantPrivateRoomChat } from "@/utils/functionHelper";
 const ChatBar = () => {
   const emojiRef = useRef();
   const inputFileRef = useRef();
@@ -23,16 +25,26 @@ const ChatBar = () => {
   const handleAddEmoji = (emoji) => {
     setMessage((message) => message + emoji.emoji);
   };
-  const handleSendMessage = () => {
+  const handleSendMessage = async () => {
     if (message?.trim()?.length < 1) return;
+    const toUser = roomSelected?.isGroup
+      ? undefined
+      : getParticipantPrivateRoomChat(
+          roomSelected?.conversationParticipants,
+          user.id
+        ).appUser?.id;
+
     const data = {
       createBy: user.id,
       roomChatId: roomSelected.id,
       content: message,
       type: TYPE_MESSAGE.TEXT,
       IsGroup: roomSelected.isGroup,
+      toUser: toUser,
     };
     HubServices.sendMessage(data);
+    // await messageApi.create(data);
+
     setMessage("");
   };
   const handleOnChangeFile = async (e) => {
@@ -49,13 +61,14 @@ const ChatBar = () => {
         IsGroup: roomSelected.isGroup,
       };
       HubServices.sendMessage(data);
+      // await messageApi.create(data);
       if (inputFileRef.current) {
         inputFileRef.current.value = "";
       }
     } catch (error) {
       toast({
         title: "Error",
-        description: "Up load image failed !",
+        description: error?.message || "Up load image failed !",
       });
     }
   };

@@ -26,7 +26,7 @@ import { useAppStore } from "@/store";
 
 const FormLogin = () => {
   const { toast } = useToast();
-  const { setIsLoadingWhenCallApi, loginSuccess } = useAppStore();
+  const { loginSuccess } = useAppStore();
   const form = useForm({
     resolver: zodResolver(LoginShecma),
     defaultValues: {
@@ -36,15 +36,10 @@ const FormLogin = () => {
   });
   const mutation = useMutation({
     mutationFn: authApi.login,
-    onMutate: () => {
-      setIsLoadingWhenCallApi(true);
-    },
     onSuccess: (data) => {
-      setIsLoadingWhenCallApi(false);
       loginSuccess(data?.value);
     },
     onError: (error) => {
-      setIsLoadingWhenCallApi(false);
       toast({
         title: "Error",
         description: error,
