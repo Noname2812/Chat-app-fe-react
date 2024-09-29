@@ -10,14 +10,15 @@ import { BiSearchAlt2 } from "react-icons/bi";
 import { MdCall } from "react-icons/md";
 
 const ChatHeader = () => {
-  const { user, roomSelected, closeRoom } = useAppStore();
+  const { user, roomSelected, closeRoom, setMessagesSearch, messagesSearch } =
+    useAppStore();
   const participantPrivateRoomChat = getParticipantPrivateRoomChat(
     roomSelected.conversationParticipants,
     user.id
   );
 
   return (
-    <div className="flex-1  border-b-2 border-[#2f303b] flex items-center justify-between px-4">
+    <div className="flex-1 border-b-2 border-[#2f303b] flex items-center justify-between px-4">
       <div className="flex gap-4">
         <div className="w-12 h-12 bg-black rounded-full">
           <img
@@ -57,9 +58,11 @@ const ChatHeader = () => {
         <Button>
           <IoVideocam size={20} />
         </Button>
-        <Button>
-          <BiSearchAlt2 size={20} />
-        </Button>
+        {!messagesSearch && (
+          <Button onClick={() => setMessagesSearch([])}>
+            <BiSearchAlt2 size={20} />
+          </Button>
+        )}
         <Button onClick={() => closeRoom()}>
           <RiCloseFill size={20} />
         </Button>

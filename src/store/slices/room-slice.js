@@ -1,15 +1,19 @@
 export const initialRoomState = {
   roomSelected: undefined,
+  messagesSearch: undefined,
 };
 export const createRoomSlice = (set) => ({
   ...initialRoomState,
+
   setRoomSelected: (room) =>
     set({
       roomSelected: room,
+      messagesSearch: undefined,
     }),
   closeRoom: () =>
     set({
       roomSelected: undefined,
+      messagesSearch: undefined,
     }),
   addMessage: (message) =>
     set((state) => {
@@ -28,4 +32,5 @@ export const createRoomSlice = (set) => ({
         },
       };
     }),
+  setMessagesSearch: (messages) => set({ messagesSearch: messages }),
 });

@@ -5,7 +5,7 @@ import ItemChatContact from "./components/ItemChatContact";
 import { useAppStore } from "@/store";
 import ChatContactHeader from "./components/ChatContactHeader";
 import {
-  getAvatarInRoomChat,
+  getParticipantByIdInRoomChat,
   getParticipantPrivateRoomChat,
 } from "@/utils/functionHelper";
 
@@ -37,7 +37,10 @@ const ChatContact = () => {
             avatar={
               item.isGroup
                 ? item.avatar
-                : getAvatarInRoomChat(item.conversationParticipants, user.id)
+                : getParticipantByIdInRoomChat(
+                    item.conversationParticipants,
+                    user.id
+                  )?.appUser?.avatar
             }
             name={
               item.isGroup

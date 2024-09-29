@@ -3,17 +3,21 @@ import ChatBar from "./components/ChatBar";
 import ChatHeader from "./components/ChatHeader";
 import MessageContainer from "./components/MessageContainer";
 import EmptyChatContainer from "../EmptyChatContainer";
+import SearchMessages from "./components/SearchMessages";
 
 const ChatContainer = () => {
-  const roomSelected = useAppStore((state) => state.roomSelected);
+  const { roomSelected, messagesSearch } = useAppStore();
 
   return (
     <>
       {roomSelected ? (
-        <div className="w-3/4 h-full flex flex-col bg-[#1c1d25]">
-          <ChatHeader />
-          <MessageContainer />
-          <ChatBar />
+        <div className="w-3/4 flex">
+          <div className={`flex-1 h-full flex flex-col bg-[#1c1d25]`}>
+            <ChatHeader />
+            <MessageContainer />
+            <ChatBar />
+          </div>
+          {messagesSearch && <SearchMessages />}
         </div>
       ) : (
         <EmptyChatContainer />

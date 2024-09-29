@@ -6,9 +6,9 @@ export const messageApi = {
   create(body) {
     return axiosClient.post(URL, body);
   },
-  getMessages({ roomId, pageIndex, pageSize }) {
+  getMessages({ roomId, pageIndex, pageSize, keySearch }) {
     return axiosClient.get(
-      URL + ObjectToQuery({ roomId, pageIndex, pageSize })
+      URL + ObjectToQuery({ roomId, pageIndex, pageSize, keySearch })
     );
   },
 };

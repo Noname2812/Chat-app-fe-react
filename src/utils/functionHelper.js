@@ -4,7 +4,10 @@ export const ObjectToQuery = (object) => {
   return (
     "?" +
     Object.keys(object)
-      .map((key) => `${key}=${object[key]}`)
+      .filter((key) => object[key] !== undefined)
+      .map(
+        (key) => `${encodeURIComponent(key)}=${encodeURIComponent(object[key])}`
+      )
       .join("&")
   );
 };
@@ -36,11 +39,11 @@ export const getCompareWithToday = (time) => {
   const differenceInDays = currentTime.diff(targetTime, "day");
   return differenceInDays + " days ago";
 };
-export const getAvatarInRoomChat = (participants, userId) => {
+export const getParticipantByIdInRoomChat = (participants, userId) => {
   const participant = participants.find(
     (participant) => participant.appUser.id === userId
   );
-  return participant?.appUser?.avatar;
+  return participant;
 };
 export const formatTimeRecord = (time) => {
   if (isNaN(time)) return "00:00";
