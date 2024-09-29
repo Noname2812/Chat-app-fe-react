@@ -10,13 +10,13 @@ export const getToken = async () => {
     user,
     token,
     setRefreshToken,
-    logOut,
+    reset,
     isRefreshingToken,
     setIsRefreshingToken,
   } = useAppStore.getState();
 
   if (!token?.accessToken) {
-    logOut();
+    reset();
     return null;
   }
 
@@ -42,7 +42,7 @@ export const getToken = async () => {
     .catch((error) => {
       setIsRefreshingToken(false);
       refreshTokenPromise = null;
-      logOut();
+      reset();
       throw error;
     });
 

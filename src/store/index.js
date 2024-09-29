@@ -1,9 +1,20 @@
 import { create } from "zustand";
-import { createAuthSlice } from "./slices/auth-slice";
-import { createThemeSlice } from "./slices/theme-slice";
+import { createAuthSlice, initialAuthState } from "./slices/auth-slice";
+import { createThemeSlice, initialThemeState } from "./slices/theme-slice";
 import { persist, createJSONStorage } from "zustand/middleware";
-import { createLoadingSlice } from "./slices/loading-slice";
-import { createRoomSlice } from "./slices/room-slice";
+import {
+  createLoadingSlice,
+  initialLoadingState,
+} from "./slices/loading-slice";
+import { createRoomSlice, initialRoomState } from "./slices/room-slice";
+
+const initialState = {
+  ...initialAuthState,
+  ...initialThemeState,
+  ...initialLoadingState,
+  ...initialRoomState,
+};
+
 export const useAppStore = create(
   persist(
     (set) => ({
@@ -11,10 +22,11 @@ export const useAppStore = create(
       ...createThemeSlice(set),
       ...createLoadingSlice(set),
       ...createRoomSlice(set),
+      reset: () => set(initialState),
     }),
     {
       name: "chat-app-storage",
-      storage: createJSONStorage(() => localStorage), // sử dụng localStorage
+      storage: createJSONStorage(() => localStorage),
       partialize: (state) => ({
         theme: state.theme,
         user: state.user,

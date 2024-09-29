@@ -18,7 +18,7 @@ import OpenListContacts from "./OpenListContact";
 import { useToast } from "@/hooks/use-toast";
 
 const ChatContactHeader = () => {
-  const { user, logOut } = useAppStore();
+  const { user, reset } = useAppStore();
   const toast = useToast();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
@@ -27,7 +27,7 @@ const ChatContactHeader = () => {
     onSuccess: (data) => {
       HubServices.disconnect();
       queryClient.removeQueries("getAllRoomChats");
-      logOut();
+      reset();
     },
     onError: (error) => {
       toast({

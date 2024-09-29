@@ -1,5 +1,8 @@
+export const initialRoomState = {
+  roomSelected: undefined,
+};
 export const createRoomSlice = (set) => ({
-  setRooms: (values) => set({ rooms: values }),
+  ...initialRoomState,
   setRoomSelected: (room) =>
     set({
       roomSelected: room,

@@ -7,42 +7,31 @@ import { useCallback, useEffect } from "react";
 import { messageApi } from "@/api/messageApi";
 import { Button } from "@/components/ui/button";
 import { useRef } from "react";
-import { ScrollArea } from "@/components/ui/scroll-area";
 
 const MessageContainer = () => {
   const { roomSelected, addMessage } = useAppStore();
   const { ref, inView } = useInView();
   const containerRef = useRef();
 
-  const {
-    status,
-    data,
-    error,
-    isFetching,
-    isFetchingNextPage,
-    isFetchingPreviousPage,
-    fetchNextPage,
-    fetchPreviousPage,
-    hasNextPage,
-    hasPreviousPage,
-  } = useInfiniteQuery(
-    ["roomChat", roomSelected?.id],
-    async ({ pageParam = 0 }) => {
-      const res = await messageApi.getMessages({
-        roomId: roomSelected?.id,
-        pageIndex: pageParam,
-        pageSize: 10,
-      });
+  const { data, isFetchingNextPage, fetchNextPage, hasNextPage } =
+    useInfiniteQuery(
+      ["roomChat", roomSelected?.id],
+      async ({ pageParam = 0 }) => {
+        const res = await messageApi.getMessages({
+          roomId: roomSelected?.id,
+          pageIndex: pageParam,
+          pageSize: 10,
+        });
 
-      return res.value;
-    },
-    {
-      getNextPageParam: (data) => {
-        if (data.hasNextPage) return data.pageIndex + 1;
-        return undefined;
+        return res.value;
       },
-    }
-  );
+      {
+        getNextPageParam: (data) => {
+          if (data.hasNextPage) return data.pageIndex + 1;
+          return undefined;
+        },
+      }
+    );
   const scrollToBottom = useCallback(() => {
     if (containerRef.current && roomSelected?.messages) {
       containerRef.current.scrollTop = containerRef.current.scrollHeight;
