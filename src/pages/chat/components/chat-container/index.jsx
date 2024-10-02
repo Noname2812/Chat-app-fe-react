@@ -12,7 +12,7 @@ const ChatContainer = () => {
     <>
       {roomSelected ? (
         <div className="w-3/4 flex">
-          <div className={`flex-1 h-full flex flex-col bg-[#1c1d25]`}>
+          <div className={`flex-1 h-full flex flex-col `}>
             <ChatHeader />
             <MessageContainer />
             <ChatBar />

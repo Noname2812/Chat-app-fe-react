@@ -1,59 +1,28 @@
-import { useQuery } from "@tanstack/react-query";
-import { roomChatApi } from "@/api/roomChatApi";
-import SkeletonList from "@/components/SkeletonList";
-import ItemChatContact from "./components/ItemChatContact";
-import { useAppStore } from "@/store";
+import CustomTabs from "@/components/CustomTabs";
+import TabsListRoomChat from "./list-rooms-chat";
+import TabListContacts from "./list-contacts";
 import ChatContactHeader from "./components/ChatContactHeader";
-import {
-  getParticipantByIdInRoomChat,
-  getParticipantPrivateRoomChat,
-} from "@/utils/functionHelper";
-
+const ListTabsChatContact = [
+  {
+    name: "Rooms",
+    value: "room",
+    content: <TabsListRoomChat />,
+  },
+  {
+    name: "Contacts",
+    value: "contact",
+    content: <TabListContacts />,
+  },
+];
 const ChatContact = () => {
-  const { user, setRoomSelected } = useAppStore();
-  const { isLoading, isError, error, data } = useQuery({
-    queryKey: ["getAllRoomChats"],
-    queryFn: () => roomChatApi.getAll({ limit: 10, offset: 0 }),
-    enabled: !!user,
-    onError: (error) => {
-      console.error("Query failed:", error);
-    },
-  });
-
   return (
-    <div className=" md:bg-slate-500 md:flex flex-col w-1/4 p-2 hidden duration-100 transition border-r-2 border-white gap-2">
+    <div className=" md:flex flex-col p-2 hidden  w-1/4  border-[#F0F0F0] gap-2 border-r-2">
       <ChatContactHeader />
-
-      {isLoading ? (
-        <SkeletonList count={10} />
-      ) : (
-        data?.value?.items?.map((item) => (
-          <ItemChatContact
-            onClick={() => {
-              setRoomSelected(item);
-            }}
-            key={item.id}
-            id={item.id}
-            avatar={
-              item.isGroup
-                ? item.avatar
-                : getParticipantByIdInRoomChat(
-                    item.conversationParticipants,
-                    user.id
-                  )?.appUser?.avatar
-            }
-            name={
-              item.isGroup
-                ? item.name
-                : getParticipantPrivateRoomChat(
-                    item.conversationParticipants,
-                    user.id
-                  )?.nickName
-            }
-            message={item.messages?.[0]}
-          />
-        ))
-      )}
+      <CustomTabs
+        listTabContents={ListTabsChatContact}
+        defaultValue={"room"}
+        classNameTabsList={"w-full justify-start bg-[#F0F2F5] px-2"}
+      />
     </div>
   );
 };

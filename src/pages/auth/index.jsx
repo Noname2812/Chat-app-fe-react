@@ -1,9 +1,21 @@
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import FormLogin from "./components/FormLogin";
 import FormRegister from "./components/FormRegister";
 import { useAppStore } from "@/store";
 import { Navigate } from "react-router-dom";
 import { ModeToggleTheme } from "@/components/mode-toggle";
+import CustomTabs from "@/components/CustomTabs";
+const TabsAuth = [
+  {
+    name: "login",
+    content: <FormLogin />,
+    value: "login",
+  },
+  {
+    name: "register",
+    content: <FormRegister />,
+    value: "register",
+  },
+];
 const AuthPage = () => {
   const { user } = useAppStore();
   if (user) return <Navigate to="/chat" />;
@@ -18,18 +30,12 @@ const AuthPage = () => {
             <h1 className="text-5xl font-bold text-center">Welcome</h1>
           </div>
           <div className="flex items-center justify-center">
-            <Tabs defaultValue="login" className="w-[400px]">
-              <TabsList className="grid w-full grid-cols-2">
-                <TabsTrigger value="login">Login</TabsTrigger>
-                <TabsTrigger value="register">Register</TabsTrigger>
-              </TabsList>
-              <TabsContent value="login">
-                <FormLogin />
-              </TabsContent>
-              <TabsContent value="register">
-                <FormRegister />
-              </TabsContent>
-            </Tabs>
+            <CustomTabs
+              listTabContents={TabsAuth}
+              defaultValue={"login"}
+              classNameTabs="w-[400px]"
+              classNameTabsList="grid w-full grid-cols-2"
+            />
           </div>
         </div>
         <div className="hidden xl:flex justify-center items-center ">

@@ -48,7 +48,7 @@ const connect = async (token) => {
 };
 const handleReceiveMessage = (data) => {
   const { roomSelected, user, addMessage } = useAppStore.getState();
-  if (roomSelected?.id === data.roomChatId || user?.id === data.createBy) {
+  if (roomSelected?.id === data.roomChatId || user?.id !== data.createBy) {
     addMessage([data]);
   }
 };

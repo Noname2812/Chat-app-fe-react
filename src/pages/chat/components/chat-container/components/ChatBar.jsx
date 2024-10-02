@@ -84,20 +84,20 @@ const ChatBar = () => {
     };
   }, [emojiRef]);
   return (
-    <div className="h-[10vh] border-t-2 border-[#2f303b] flex items-center justify-center px-8 mb-6 gap-6">
+    <div className="h-[10vh] border-t-2 border-[#F0F0F0] flex items-center justify-center px-8 mb-6 gap-6">
       {!showAudio && (
         <>
-          <div className="flex-1 flex  rounded-md items-center gap-5 pr-5 bg-[#2a2d33]">
+          <div className="flex-1 flex  rounded-md items-center gap-5 pr-5 bg-[#F0F2F5]">
             <Input
               type="text"
               placeholder="Nhập tin nhắn"
-              className="fflex-1 border-none p-6 bg-transparent text-sm text-white rounded-md focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-0"
+              className="fflex-1 border-none p-6 bg-transparent text-sm rounded-md focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-0"
               value={message}
               onChange={(e) => setMessage(e.target.value)}
             />
 
             <Button
-              className="text-neutral-500 focus:text-white duration-300 transition-all"
+              className="text-white focus:text-white duration-300 transition-all p-2 bg-[#8417ff] rounded-full hover:bg-[#741bda]"
               onClick={() => inputFileRef.current.click()}
             >
               <LuImagePlus className="text-2xl" />
@@ -110,10 +110,10 @@ const ChatBar = () => {
             />
             <div className="relative">
               <Button
-                className="text-neutral-500 focus:text-white duration-300 transition-all"
+                className="text-white focus:text-white duration-300 transition-all p-2 bg-[#8417ff] rounded-full hover:bg-[#741bda]"
                 onClick={() => setEmojPickerOpen(!emojPickerOpen)}
               >
-                <RiEmojiStickerLine className="text-2xl" />
+                <RiEmojiStickerLine className="text-2xl " />
               </Button>
               <div className="absolute bottom-16 right-0" ref={emojiRef}>
                 <EmojiPicker
@@ -126,14 +126,14 @@ const ChatBar = () => {
             </div>
           </div>
           <Button
-            className="rounded flex items-center justify-center p-6  duration-300 transition-all hover:bg-[#741bda]"
+            className="text-white flex items-center justify-center p-2  duration-300 transition-all hover:bg-[#741bda] bg-[#8417ff] rounded-full"
             onClick={() => setShowAudio(true)}
           >
             <FaMicrophone size={20} />
           </Button>
           {message.length > 0 && (
             <Button
-              className="bg-[#8417ff] rounded flex items-center justify-center p-6 focus:text-white duration-300 transition-all hover:bg-[#741bda]"
+              className="bg-[#8417ff] rounded flex items-center justify-center p-4 focus:text-white duration-300 transition-all hover:bg-[#741bda]"
               onClick={handleSendMessage}
             >
               <IoSend className="text-2xl" />

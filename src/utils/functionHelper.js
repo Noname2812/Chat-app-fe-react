@@ -58,3 +58,10 @@ export const sortByCreatedDate = (data) => {
     (a, b) => dayjs(a.createdDate).valueOf() - dayjs(b.createdDate).valueOf()
   );
 };
+export const meregeMessages = (a, b) => {
+  const currentMessages = [...(a || []), b].flatMap((page) => page);
+  const result = [
+    ...new Map(currentMessages.map((item) => [item.id, item])).values(),
+  ];
+  return sortByCreatedDate(result);
+};

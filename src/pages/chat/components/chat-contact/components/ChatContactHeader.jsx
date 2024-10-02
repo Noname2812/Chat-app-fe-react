@@ -1,5 +1,4 @@
 import { authApi } from "@/api/authApi";
-import Logo from "./Logo";
 import { ModeToggleTheme } from "@/components/mode-toggle";
 
 import {
@@ -14,8 +13,8 @@ import { useAppStore } from "@/store";
 import { useNavigate } from "react-router-dom";
 import { HubServices } from "@/services/HubServices";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import OpenListContacts from "./OpenListContact";
 import { useToast } from "@/hooks/use-toast";
+import DiaLogListContacts from "./DiaLogListContacts";
 
 const ChatContactHeader = () => {
   const { user, reset } = useAppStore();
@@ -40,10 +39,10 @@ const ChatContactHeader = () => {
     mutation.mutate();
   };
   return (
-    <div className="py-3 flex justify-between items-center">
+    <div className="py-3 flex justify-between items-center shadow-lg">
       <DropdownMenu>
         <DropdownMenuTrigger>
-          <div className="flex gap-4 items-center">
+          <div className="flex gap-4 items-center ">
             <img
               src={user?.avatar}
               alt="avatar"
@@ -68,7 +67,7 @@ const ChatContactHeader = () => {
           <DropdownMenuItem onClick={handleLogout}>logout</DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
-      <OpenListContacts />
+      {/* <DiaLogListContacts /> */}
     </div>
   );
 };

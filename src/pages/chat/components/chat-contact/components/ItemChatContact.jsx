@@ -7,8 +7,8 @@ const ItemChatContact = ({ avatar, name, message, onClick, id }) => {
 
   return (
     <div
-      className={`flex items-center gap-4 w-full ${
-        roomSelected?.id === id ? "bg-green-400" : "bg-white"
+      className={`flex items-center gap-4 py-4 w-full ${
+        roomSelected?.id === id ? "bg-[#EBF5FF] dark:bg-[#232E3B]" : ""
       }  shadow-xl rounded h-[10%] px-2 cursor-pointer hover:opacity-90 w-full `}
       onClick={onClick}
     >
@@ -21,11 +21,11 @@ const ItemChatContact = ({ avatar, name, message, onClick, id }) => {
       </div>
       <div className="flex flex-col gap-1 w-3/5 px-1">
         <div>
-          <h3 className="text-2xl">{name}</h3>
+          <h3 className="text-2xl font-semibold">{name}</h3>
         </div>
         <div className="w-full">
           {message?.type === TYPE_MESSAGE.TEXT && (
-            <p className="whitespace-nowrap overflow-hidden text-ellipsis text-sm font-medium ">
+            <p className="whitespace-nowrap overflow-hidden text-ellipsis text-sm ">
               {isMyMessage ? "You: " + message?.content : message?.content}
             </p>
           )}
