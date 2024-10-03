@@ -27,7 +27,7 @@ const TabsListRoomChat = () => {
     }
   }, [data?.value?.items, isFetching]);
   return (
-    <div className="duration-100 transition flex flex-col gap-1 ">
+    <div className="duration-100 transition flex flex-col gap-2">
       <SearchRoom setRooms={(rooms) => setRooms(rooms)} />
       {isLoading ? (
         <SkeletonList count={10} />

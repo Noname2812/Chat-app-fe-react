@@ -16,7 +16,8 @@ const ChatHeader = () => {
     roomSelected.conversationParticipants,
     user.id
   );
-
+  const handleOnClickVoiceCall = () => {};
+  const handleOnClickVideoCall = () => {};
   return (
     <div className="flex-1 border-b-2 border-[#F0F0F0] flex items-center justify-between px-4 shadow-md">
       <div className="flex gap-4">
@@ -52,10 +53,16 @@ const ChatHeader = () => {
         </div>
       </div>
       <div className="flex gap-4 justify-end">
-        <Button className="p-4 rounded-full bg-transparent hover:bg-[#F0F0F0] shadow-none">
+        <Button
+          className="p-4 rounded-full bg-transparent hover:bg-[#F0F0F0] shadow-none"
+          onClick={handleOnClickVoiceCall}
+        >
           <MdCall size={25} color="#0084FF" fontWeight={"600"} />
         </Button>
-        <Button className="p-4 rounded-full bg-transparent hover:bg-[#F0F0F0] shadow-none">
+        <Button
+          className="p-4 rounded-full bg-transparent hover:bg-[#F0F0F0] shadow-none"
+          onClick={handleOnClickVideoCall}
+        >
           <IoVideocam size={25} color="#0084FF" fontWeight={"600"} />
         </Button>
         {!messagesSearch && (

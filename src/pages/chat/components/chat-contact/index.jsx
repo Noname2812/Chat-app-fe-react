@@ -22,6 +22,7 @@ const ChatContact = () => {
         listTabContents={ListTabsChatContact}
         defaultValue={"room"}
         classNameTabsList={"w-full justify-start bg-[#F0F2F5] px-2"}
+        classNameTabsTrigger={"bg-[#F0F2F5] rounded-xl text-sm "}
       />
     </div>
   );

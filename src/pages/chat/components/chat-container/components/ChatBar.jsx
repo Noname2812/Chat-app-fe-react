@@ -84,7 +84,7 @@ const ChatBar = () => {
     };
   }, [emojiRef]);
   return (
-    <div className="h-[10vh] border-t-2 border-[#F0F0F0] flex items-center justify-center px-8 mb-6 gap-6">
+    <div className="h-[10vh] border-t-2 border-[#F0F0F0] flex items-center justify-center px-8 gap-6">
       {!showAudio && (
         <>
           <div className="flex-1 flex  rounded-md items-center gap-5 pr-5 bg-[#F0F2F5]">

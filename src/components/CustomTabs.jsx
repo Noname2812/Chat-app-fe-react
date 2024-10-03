@@ -5,12 +5,17 @@ const CustomTabs = ({
   listTabContents,
   classNameTabs,
   classNameTabsList,
+  classNameTabsTrigger,
 }) => {
   return (
-    <Tabs defaultValue={defaultValue} className={classNameTabs}>
-      <TabsList className={classNameTabsList}>
+    <Tabs defaultValue={defaultValue} className={classNameTabs || ""}>
+      <TabsList className={classNameTabsList || ""}>
         {listTabContents.map((item) => (
-          <TabsTrigger key={item.name} value={item.value} className="">
+          <TabsTrigger
+            key={item.name}
+            value={item.value}
+            className={classNameTabsTrigger || ""}
+          >
             {item.name}
           </TabsTrigger>
         ))}

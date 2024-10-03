@@ -7,12 +7,17 @@ import {
   initialLoadingState,
 } from "./slices/loading-slice";
 import { createRoomSlice, initialRoomState } from "./slices/room-slice";
+import {
+  createVideoCallSlice,
+  initialVideoCallState,
+} from "./slices/video-call-slice";
 
 const initialState = {
   ...initialAuthState,
   ...initialThemeState,
   ...initialLoadingState,
   ...initialRoomState,
+  ...initialVideoCallState,
 };
 
 export const useAppStore = create(
@@ -22,6 +27,7 @@ export const useAppStore = create(
       ...createThemeSlice(set),
       ...createLoadingSlice(set),
       ...createRoomSlice(set),
+      ...createVideoCallSlice(set),
       reset: () => set(initialState),
     }),
     {

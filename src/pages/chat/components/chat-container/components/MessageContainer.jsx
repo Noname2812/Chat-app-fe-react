@@ -71,7 +71,11 @@ const MessageContainer = () => {
           <>
             {hasNextPage && (
               <div className="w-full flex justify-center">
-                <Button ref={ref} onClick={() => fetchNextPage()}>
+                <Button
+                  ref={ref}
+                  onClick={() => fetchNextPage()}
+                  className="bg-transparent text-primary hover:bg-primary hover:text-white"
+                >
                   {isFetchingNextPage
                     ? "Loading more..."
                     : hasNextPage

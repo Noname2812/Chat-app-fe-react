@@ -1,3 +1,5 @@
+import CallingComponent from "@/components/calling-ui";
+import IncomingCallComponent from "@/components/incoming-call-ui";
 import { HubServices } from "@/services/HubServices";
 import { useAppStore } from "@/store";
 import { getToken } from "@/utils/tokenHelpers";
@@ -5,7 +7,7 @@ import { useEffect } from "react";
 import { Navigate } from "react-router-dom";
 
 const PrivateRouteWrapper = ({ children }) => {
-  const user = useAppStore((state) => state.user);
+  const { user } = useAppStore();
   useEffect(() => {
     const initializeConnection = async () => {
       const token = await getToken();
@@ -17,7 +19,15 @@ const PrivateRouteWrapper = ({ children }) => {
     initializeConnection();
   }, []);
 
-  return user ? children : <Navigate to="/auth" />;
+  return user ? (
+    <>
+      <CallingComponent />
+      <IncomingCallComponent />
+      {children}
+    </>
+  ) : (
+    <Navigate to="/auth" />
+  );
 };
 
 export default PrivateRouteWrapper;
