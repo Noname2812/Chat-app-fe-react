@@ -15,8 +15,8 @@ export const getParticipantPrivateRoomChat = (
   conversationParticipants,
   userId
 ) => {
-  const participant = conversationParticipants.find(
-    (participant) => participant.appUser.id !== userId
+  const participant = conversationParticipants?.find(
+    (participant) => participant?.appUser?.id !== userId
   );
   return participant;
 };
@@ -64,4 +64,16 @@ export const meregeMessages = (a, b) => {
     ...new Map(currentMessages.map((item) => [item.id, item])).values(),
   ];
   return sortByCreatedDate(result);
+};
+export const genarateRoomIdZegoCloudFromRoomChatId = (roomId) => {
+  return roomId?.split("-").join("");
+};
+export const getTypeUpdatePublishingZegoClold = ({ audio, camera }) => {
+  if (audio) {
+    if (camera) {
+      return 2;
+    }
+    return 1;
+  }
+  return 0;
 };

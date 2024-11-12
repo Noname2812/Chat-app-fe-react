@@ -14,3 +14,20 @@ export const TYPE_MESSAGE = {
   IMAGE: 1,
   AUDIO: 2,
 };
+export const PARAMS_CREATE_TOKEN_ZEGO_CLOUD = {
+  appId: Number(import.meta.env.VITE_APP_ID_ZEGOCLOUD),
+  secret: import.meta.env.VITE_SECRET_ZEGOCLOUD,
+  effectiveTimeInSeconds: 3600,
+  payload: "",
+};
+export const STATUS_CALL = {
+  WAITING: 0,
+  CALLING: 1,
+  REJECTED: 2,
+  CANCELED: 3,
+  ENDED: 4,
+};
+export const TYPE_CALL = {
+  VIDEO: 0,
+  AUDIO: 1,
+};

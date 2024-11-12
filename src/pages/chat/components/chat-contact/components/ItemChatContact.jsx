@@ -4,13 +4,17 @@ import { useAppStore } from "@/store";
 const ItemChatContact = ({ avatar, name, message, onClick, id }) => {
   const { roomSelected, user } = useAppStore();
   const isMyMessage = user?.id === message?.createdBy;
-
+  const handleSelectedRoom = (id) => {
+    if (roomSelected?.id !== id) {
+      onClick();
+    }
+  };
   return (
     <div
       className={`flex items-center gap-4 py-4 w-full ${
         roomSelected?.id === id ? "bg-[#EBF5FF] dark:bg-[#232E3B]" : ""
       }  shadow-xl rounded h-[10%] px-2 cursor-pointer hover:opacity-90 w-full `}
-      onClick={onClick}
+      onClick={() => handleSelectedRoom(id)}
     >
       <div className="bg-black rounded-full">
         <img

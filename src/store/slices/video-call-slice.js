@@ -1,11 +1,17 @@
 export const initialVideoCallState = {
-  calling: undefined,
-  incomingCall: false,
+  incomingCall: undefined,
+  callInformation: undefined,
+  tokenZegoCloud: undefined,
 };
 export const createVideoCallSlice = (set) => ({
   ...initialVideoCallState,
   setIncomingCall: (incomingCall) => set({ incomingCall }),
-  endOrRejectVideoCall: () => set({ calling: undefined, incomingCall: false }),
-  beginOrAcceptVideoCall: ({ type, caller, room }) =>
-    set({ calling: { type, caller, room }, isIncomingCall: false }),
+  endOrRejectVideoCall: () =>
+    set({ callInformation: undefined, incomingCall: undefined }),
+  beginOrAcceptVideoCall: ({ type, caller, room, status }) =>
+    set({
+      callInformation: { type, caller, room, status },
+      incomingCall: undefined,
+    }),
+  setTokenZegoCloud: (token) => set({ tokenZegoCloud: token }),
 });

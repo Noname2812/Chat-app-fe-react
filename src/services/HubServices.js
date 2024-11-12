@@ -17,15 +17,7 @@ const connect = async (token) => {
       accessTokenFactory: () => token,
     })
     .configureLogging(LogLevel.Information)
-    .withAutomaticReconnect({
-      nextRetryDelayInMilliseconds: (retryContext) => {
-        if (retryContext.elapsedMilliseconds < 60000) {
-          return Math.random() * 10000;
-        } else {
-          return null;
-        }
-      },
-    })
+    .withAutomaticReconnect()
     .build();
   try {
     await connection.start();
@@ -40,6 +32,19 @@ const connect = async (token) => {
     });
     connection.on("ErrorWhileSendingMessage", (message) => {
       console.log("ErrorWhileSendingMessage:", message);
+    });
+    connection.on("IncomingCall", (data) => {
+      handleReceiveIncommingCall(data);
+    });
+    // connection.on("end-call", (data) => {
+    //   handleEndCall(data);
+    // });
+    // connection.on("begin-call", (data) => {
+    //   handleBeginCall(data);
+    // });
+    connection.on("RecievedTokenZegoCloud", (data) => {
+      const { setTokenZegoCloud } = useAppStore.getState();
+      setTokenZegoCloud(data);
     });
   } catch (error) {
     connection = null;
@@ -63,6 +68,13 @@ const handleSendMessage = async (msg) => {
     throw new Error("Not connected to SignalR Hub");
   }
 };
+const handleReceiveIncommingCall = (data) => {
+  const { setIncomingCall } = useAppStore.getState();
+  setIncomingCall(data);
+};
+const handleEndCall = () => {};
+const handleBeginCall = () => {};
+
 export const HubServices = {
   connection: (token) => connect(token),
   disconnect: async () => {
@@ -81,4 +93,5 @@ export const HubServices = {
     return connection !== null && connection.state === "Connected";
   },
   sendMessage: (msg) => handleSendMessage(msg),
+  getConnection: () => connection,
 };
